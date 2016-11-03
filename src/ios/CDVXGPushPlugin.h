@@ -12,6 +12,7 @@ typedef void (^CallbackBlock) (void);
 }
 
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions;
++(void)setMyDeviceToken:(NSData *)myDeviceToken;
 
 /*
  notification
@@ -28,6 +29,7 @@ typedef void (^CallbackBlock) (void);
 - (void) didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken;
 - (void) didFailToRegisterForRemoteNotificationsWithError:(NSError*)err;
 - (void) didReceiveRemoteNotification:(NSDictionary*)userInfo;
+
 
 - (void) sendMessage:(NSString*) type data:(NSDictionary*)dict;
 

@@ -54,4 +54,10 @@
     //[XGPush clearLocalNotifications];
 }
 
+-(void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    NSString *deviceTokenStr = [NSString stringWithFormat:@"%@",deviceToken];
+    NSLog(@"[AppDelegate] didRegisterForRemoteNotificationsWithDeviceToken\n%@", deviceTokenStr);
+    
+    [CDVXGPushPlugin setMyDeviceToken:deviceToken];
+}
 @end

@@ -4,12 +4,20 @@
 
 
 static NSDictionary *_luanchOptions=nil;
+static NSData *myDeviceToken=nil;
 
 @implementation CDVXGPushPlugin
 
 
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     _luanchOptions = theLaunchOptions;
+}
+
++(void)setMyDeviceToken:(NSData *)deviceToken{
+    myDeviceToken = deviceToken;
+    
+    NSString *deviceTokenStr = [NSString stringWithFormat:@"%@",myDeviceToken];
+    NSLog(@"[setMyDeviceToken] setMyDeviceToken\n%@", deviceTokenStr);
 }
 
 /*
@@ -167,7 +175,7 @@ static NSDictionary *_luanchOptions=nil;
 - (void) registerPush:(CDVInvokedUrlCommand*)command {
     NSString* account = [command.arguments objectAtIndex:0];
     
-    NSLog(@"[XGPushPlugin] registerPush: account = %@, token = %@", account, self.deviceToken);
+    NSLog(@"[XGPushPlugin] registerPush: account = %@, token = %@", account, myDeviceToken);
     
     if ([account respondsToSelector:@selector(length)] && [account length] > 0) {
         NSLog(@"[XGPushPlugin] set account:%@", account);
@@ -175,7 +183,7 @@ static NSDictionary *_luanchOptions=nil;
     }
     
     // FIXME: 放到 background thread 里运行时无法执行回调
-    NSString * result = [XGPush registerDevice:self.deviceToken successCallback:^{
+    NSString * result = [XGPush registerDevice:myDeviceToken successCallback:^{
         // 成功
         NSLog(@"[XGPushPlugin] registerPush success");
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -291,7 +299,7 @@ static NSDictionary *_luanchOptions=nil;
 
 
 - (void) getToken:(CDVInvokedUrlCommand*)command{
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[NSString stringWithFormat: @"%@",self.deviceToken]];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[NSString stringWithFormat: @"%@",myDeviceToken]];
     [result setKeepCallback:[NSNumber numberWithBool:YES]];
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
