@@ -79,12 +79,15 @@ function XGPush() {
             null, "XGPush", "addListener", []
             );
 
+            channel.onCordovaXGPushReady.fire();
+        /*
         me.registerPush(null, function (info) {
             console.log("[XGPush] RegisterPush: ", info);
             channel.onCordovaXGPushReady.fire();
         }, function (e) {
             utils.alert("[ERROR] RegisterPush: ", e);
         });
+        */
     });
 }
 
